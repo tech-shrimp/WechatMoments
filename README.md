@@ -14,11 +14,10 @@
 ## 2. 使用说明
 
 * (1) 安装[Windows版微信](https://pc.weixin.qq.com/)
-* (2) 登陆微信，登陆成功后**重启微信**，并再次登陆
-* (3) 在release下载压缩包wechat_moments.zip 
-* (4) 解压文件夹（路径不要包含中文）
-* (5) 管理员身份运行wechat_moments.exe，并按提示操作
-* (6) 如发生异常，重启微信，重启软件
+* (2) 在release下载压缩包wechat_moments.zip 
+* (3) 解压文件夹（路径不要包含中文）
+* (4) 管理员身份运行wechat_moments.exe，并按提示操作
+* (5) 如发生异常，重启微信，重启软件
 
 # 二. 详细介绍
 
