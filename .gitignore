@@ -1,0 +1,6 @@
+.idea/
+log/
+build/
+dist/
+output/
+app/DataBase/Msg

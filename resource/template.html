@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
+		<link rel="stylesheet" type="text/css" href="css/index.css"/>
+	</head>
+	<script>
+	function openFullSize(event) {
+	   document.getElementById('fullSizeImage').src = event.target.getAttribute('full_img');
+	   document.getElementById('fullSizeOverlay').style.display = "block";
+	}
+
+	function closeFullSize(event) {
+		if (event.target.id !== 'fullSizeImage') {
+			document.getElementById('fullSizeOverlay').style.display = "none";
+		}
+    }
+
+	function openWarningOverlay(event) {
+	   document.getElementById('warningOverlay').style.display = "block";
+	}
+
+	function closeWarningOverlay(event) {
+	   document.getElementById('warningOverlay').style.display = "none";
+	}
+
+	</script>
+	<body >
+			<div id="fullSizeOverlay" style="display:none;" onclick="closeFullSize(event)">
+				<img id="fullSizeImage" src="" alt="Full Size Image"/>
+			</div>
+
+			<div id="warningOverlay" style="display:none;">
+				<label>
+					<div class="alert info" onclick="closeWarningOverlay(event)">
+					   <span class="alertClose"> X </span>
+					   <span class="alertText">
+						   视频号请到微信搜索观看
+						   <br class="clear"/>
+					   </span>
+					</div>
+				</label>
+            </div>
+
+			<div class="header">
+	        	<div class="col-xs-12  text-center">
+	        		朋友圈
+	        	</div>
+	        </div>
+
+	        <div class="cover_container">
+	        	<img src="{cover_path}" class="cover_img"/>
+	        	<div class="avatar">
+	        	  <h4>{my_name}</h4>
+	        	  <div class="usr_img_box">
+	        	  	<img src="avatars/{my_wxid}.png" class="user_logo">
+	        	  </div>
+	            </div>
+	        </div>
+	        <div class="text_box">
+				/*内容分割线*/
+	        	<p class="end">已显示全部内容</p>
+	         </div>
+	</body>
+        <script src="js/jquery-2.1.1.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/index.js" type="text/javascript" charset="utf-8"></script>
+</html>

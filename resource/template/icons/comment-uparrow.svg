@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="12px" height="7px" viewBox="0 0 12 7" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 39 (31667) - http://www.bohemiancoding.com/sketch -->
+    <title>enter-arrow</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="发现" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="02-发现-车友圈" transform="translate(-92.000000, -1301.000000)" fill="#ACB1B7">
+            <g id="content" transform="translate(0.000000, 290.000000)">
+                <g id="示例3" transform="translate(16.000000, 558.000000)">
+                    <g id="enter-arrow" transform="translate(82.000000, 456.500000) rotate(-90.000000) translate(-82.000000, -456.500000) translate(78.500000, 450.500000)">
+                        <path d="M0.608841978,14 C0.470277523,14 0.331006479,13.9613238 0.216734051,13.882168 C-0.0405860142,13.7039169 -0.0734545654,13.3878545 0.14324884,13.1762378 L6.59564512,6.87581039 L0.44101501,0.822369399 C0.225213114,0.610111401 0.259470477,0.294169219 0.517545862,0.116659651 C0.775621246,-0.0608098387 1.15976178,-0.0326343529 1.37556367,0.179623645 L7.85814834,6.55561984 C8.04780646,6.74216721 8.04722169,7.01376206 7.85675953,7.19974832 L1.07504424,13.821749 C0.95455871,13.9394007 0.782272925,13.99998 0.608841978,14 L0.608841978,14 Z" id="箭头"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

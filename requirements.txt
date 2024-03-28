@@ -1,0 +1,11 @@
+pywxdump~=2.4.44
+xmltodict~=0.13.0
+dataclasses_json
+pillow~=10.2.0
+tkcalendar~=1.6.1
+pywin32
+requests~=2.31.0
+fileType
+pyautogui
+opencv-python
+retry
