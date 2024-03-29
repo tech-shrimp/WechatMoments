@@ -44,7 +44,7 @@ class VideoDecrypter:
             # 这是到_internal文件夹
             resource_dir = getattr(sys, '_MEIPASS')
             # 获取_internal上一级文件夹再拼接
-            return os.path.join(resource_dir, 'output', dir_name, 'videos', f'{md5}_{duration}.mp4')
+            return os.path.join(os.path.dirname(resource_dir), 'output', dir_name, 'videos', f'{md5}_{duration}.mp4')
         else:
             return os.path.join(os.getcwd(), 'output', dir_name, 'videos', f'{md5}_{duration}.mp4')
 
@@ -117,8 +117,10 @@ class VideoDecrypter:
                                 input_path = str(file.resolve())
                                 ffmpeg_path = self.get_ffmpeg_path()
                                 output_path = self.get_output_path(dir_name, md5, duration)
+                                print("ffmpeg_path: " + str(ffmpeg_path))
                                 if os.path.exists(ffmpeg_path):
                                     cmd = f'''"{ffmpeg_path}" -loglevel quiet -i "{input_path}" -c:v libx264 "{output_path}"'''
+                                    print("ffmpeg_path cmd:" + cmd)
                                     subprocess.run(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
                             else:
                                 shutil.copy(file.resolve(), f"output/{dir_name}/videos/{md5}_{duration}.mp4")

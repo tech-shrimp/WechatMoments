@@ -1,14 +1,11 @@
 import os
-import threading
 import tkinter
 import tkinter.font
 import tkinter.ttk
 from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Optional
-from time import sleep
 import tkcalendar
-from pywxdump import read_info
 from decrypter.db_decrypt import DatabaseDecrypter
 from decrypter.video_decrypt import VideoDecrypter
 from gui.auto_scroll_guide import AutoScrollGuide
@@ -82,13 +79,13 @@ class Gui:
         self.waiting_label.config(text="微信已登录")
 
         self.auto_scroll_button_text = tkinter.StringVar()
-        self.auto_scroll_button_text.set("读取全部朋友")
+        self.auto_scroll_button_text.set("自动浏览全部朋友圈")
         self.auto_scroll_button = tkinter.ttk.Button(self.root, textvariable=self.auto_scroll_button_text,
                                                      command=self.open_auto_scroll_guide)
         self.auto_scroll_button.place(relx=0.35, rely=0.15, anchor='center')
 
         self.auto_scroll_button_single_text = tkinter.StringVar()
-        self.auto_scroll_button_single_text.set("读取单个朋友")
+        self.auto_scroll_button_single_text.set("自动浏览单个朋友")
         self.auto_scroll_button_single = tkinter.ttk.Button(self.root, textvariable=self.auto_scroll_button_single_text,
                                                             command=self.switch_auto_scroll_single)
         self.auto_scroll_button_single.place(relx=0.655, rely=0.15, anchor='center')
