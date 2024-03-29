@@ -28,8 +28,7 @@
 * 可以根据联系人，朋友圈时间进行过滤导出
 * 强依赖微信Windows客户端，只提供windows版本
 * 只测试过python3.11+Win10/Win11，其他环境随缘
-<br>
-![主界面.png](/doc/pic/主界面.png)
+* ![主界面.png](/doc/pic/主界面.png)
 
 ## 2. 已知问题
 
