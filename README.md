@@ -12,7 +12,7 @@
 * 分发，宣传，二次开发等请注明原作者
 
 ## 2. 使用说明
-
+* ### [视频演示-Bilibili](https://www.bilibili.com/video/BV1qq421A7aF/)
 * (1) 安装[Windows版微信](https://pc.weixin.qq.com/)，并且登陆
 * (2) 在[Releases](https://github.com/tech-shrimp/WechatMoments/releases)下载压缩包wechat_moments.zip 
 * (3) 解压文件夹（路径不要包含中文）
