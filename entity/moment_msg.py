@@ -39,6 +39,8 @@ class Media:
     thumb: Optional[Thumb] = None
     thumbUrl: Optional[str] = None
     videoDuration: Optional[str] = None
+    title: Optional[str] = None
+    description: Optional[str] = None
 
 @dataclass_json
 @dataclass
@@ -61,6 +63,7 @@ class ContentObject:
     contentStyle: int
     contentUrl: Optional[str] = ""
     title: Optional[str] = ""
+    description: Optional[str] = ""
     mediaList: Optional[MediaList] = None
     # 视频号消息
     finderFeed: Optional[FinderFeed] = None

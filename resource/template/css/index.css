@@ -60,6 +60,15 @@ padding-top:0.2rem;
 .out_link {background-color:#F7F7F7 ;font-size:0.7rem ;width:95% ;color:#41454D  ;overflow: hidden; cursor:pointer;}
 .out_link img{width:2.5rem ;height:2.5rem ;margin:0.5rem 0.5rem ;float: left;}
 
+.music_link {background-color:#F7F7F7 ;font-size:0.7rem ;width:95% ;color:#41454D  ;overflow: hidden; cursor:pointer;  display: flex; flex-direction:column}
+.music_des {width:100%;display: flex;}
+.music_title_musician {width:100%;margin-left: 1.5rem;display: flex;flex-direction:column}
+.music_title {font-size:1.0rem;margin-top: 0.5rem;}
+.music_musician {font-size:0.85rem;margin-top: 0.5rem;}
+.music_link img{width:4rem ;height:4rem ;margin:0.2rem 0.2rem ;float: left;}
+.music_audio {height: 1.5rem; width: 95%;}
+
+
 .text{float: left;margin-top: 1.1rem;width:80% ;}
 .pl{margin-top:0.5rem ;font-size:0.6rem ;color:#80858c ;clear: both;}
 .pl span{display:inline-block ;width:2rem ;}

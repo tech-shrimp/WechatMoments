@@ -3,6 +3,7 @@ import json
 import shutil
 import threading
 import time
+from typing import Tuple
 
 import xmltodict
 
@@ -36,6 +37,31 @@ def get_img_css(size: int) -> str:
         return f'width:8rem;height:8rem;float:left;margin-bottom:0.2rem;margin-right:0.2rem;{img_style}'
     else:
         return f'width:5rem;height:5rem;float:left;margin-bottom:0.2rem;margin-right:0.2rem;{img_style}'
+
+
+def is_music_msg(msg: MomentMsg) -> bool:
+    """判断一个msg是否为音乐分享
+    """
+    if msg.timelineObject.ContentObject and msg.timelineObject.ContentObject.mediaList and msg.timelineObject.ContentObject.mediaList.media:
+        media = msg.timelineObject.ContentObject.mediaList.media[0]
+        if media.type == '5':
+            return True
+    return False
+
+
+def get_music_info(msg: MomentMsg) -> Tuple[str, str, str]:
+    """获取音乐标题，演唱者，音乐源
+    """
+    title = ""
+    musician = ""
+    src = ""
+    if msg.timelineObject.ContentObject and msg.timelineObject.ContentObject.mediaList and msg.timelineObject.ContentObject.mediaList.media:
+        media = msg.timelineObject.ContentObject.mediaList.media[0]
+        title = media.title
+        musician = media.description
+        if media.url:
+            src = media.url.text
+    return title, musician, src
 
 
 class HtmlExporter(threading.Thread):
@@ -85,11 +111,11 @@ class HtmlExporter(threading.Thread):
         self.file.write(self.html_head)
         # 加一天
         end_date = self.end_date + datetime.timedelta(days=1)
-        begin_time = time.mktime(datetime.datetime(self.begin_date.year, self.begin_date.month, self.begin_date.day).timetuple())
+        begin_time = time.mktime(
+            datetime.datetime(self.begin_date.year, self.begin_date.month, self.begin_date.day).timetuple())
         end_time = time.mktime(datetime.datetime(end_date.year, end_date.month, end_date.day).timetuple())
 
         self.gui.video_decrypter.decrypt_videos(self, self.begin_date, end_date, self.dir_name, self.convert_video)
-
 
         message_datas = sns_db.get_messages_in_time(begin_time, end_time)
         for index, message_data in enumerate(message_datas):
@@ -155,6 +181,26 @@ class HtmlExporter(threading.Thread):
                 thumb_path, image_path = images[0]
                 html += f'        <img src = "{thumb_path}"/>\n'
             html += f'       <div class ="text" >{msg.timelineObject.ContentObject.title}</div>\n'
+            html += '      </div >\n'
+            html += '   </a>\n'
+        # 音乐
+        elif is_music_msg(msg):
+
+            title, musician, src = get_music_info(msg)
+            html += f'  <a href="{msg.timelineObject.ContentObject.contentUrl}" target="_blank">\n'
+            html += '      <div class ="music_link" >\n'
+            html += '        <div class ="music_des" >\n'
+            if images:
+                thumb_path, image_path = images[0]
+                html += f'        <img src = "{thumb_path}"/>\n'
+            html += '             <div class = "music_title_musician">\n'
+            html += f'               <div class = "music_title">{title}</div>\n'
+            html += f'               <div class = "music_musician">{musician}</div>\n'
+            html += '             </div>\n'
+            html += '         </div>\n'
+            html += f'        <audio class = "music_audio" controls>'
+            html += f'             <source src="{src}" type="audio/mpeg">'
+            html += f'        </audio>'
             html += '      </div >\n'
             html += '   </a>\n'
         # 视频号
