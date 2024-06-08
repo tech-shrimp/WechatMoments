@@ -49,13 +49,26 @@ class Sns:
             return None
         try:
             lock.acquire(True)
-            sql = '''select UserName, Content from FeedsV20  where CreateTime>=?
+            sql = '''select UserName, Content, FeedId from FeedsV20  where CreateTime>=?
                   and  CreateTime<=? order by CreateTime desc'''
             self.cursor.execute(sql, [start_time, end_time])
             res = self.cursor.fetchall()
         finally:
             lock.release()
 
+        return res
+
+    def get_comment_by_feed_id(self, feed_id):
+        if not self.open_flag:
+            return None
+        try:
+            lock.acquire(True)
+            sql = '''select FromUserName, CommentType, Content from CommentV20 where FeedId=?
+                   order by CreateTime desc'''
+            self.cursor.execute(sql, [feed_id])
+            res = self.cursor.fetchall()
+        finally:
+            lock.release()
         return res
 
     def get_cover_url(self) -> Optional[str]:

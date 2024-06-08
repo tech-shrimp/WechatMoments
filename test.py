@@ -1,4 +1,6 @@
 import datetime
+
+from decrypter.image_decrypt import ImageDecrypter
 from decrypter.video_decrypt import VideoDecrypter
 import threading
 from time import sleep
@@ -12,8 +14,8 @@ def stage_3():
     gui_thread.start()
     gui.init_export_page()
 
-    gui.begin_calendar.set_date(datetime.date(2024, 3, 6))
-    gui.end_calendar.set_date(datetime.date(2024, 3, 6))
+    gui.begin_calendar.set_date(datetime.date(2024, 5, 6))
+    gui.end_calendar.set_date(datetime.date(2024, 5, 6))
 
     # 后台读取微信信息
     # 请等待完全接入微信再进行UI操作
@@ -31,6 +33,7 @@ def stage_3():
             gui.waiting_label.config(text="微信已登录")
             # 初始化视频导出器
             gui.video_decrypter = VideoDecrypter(gui, gui.account_info.get("filePath"))
+            gui.image_decrypter = ImageDecrypter(gui, gui.account_info.get("filePath"))
             gui.waiting_label.place_forget()
             break
 

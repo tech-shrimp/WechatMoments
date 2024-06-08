@@ -7,6 +7,7 @@ from typing import Tuple
 
 import xmltodict
 
+from entity.comment import Comment
 from entity.contact import Contact
 from exporter.avatar_exporter import AvatarExporter
 from exporter.emoji_exporter import EmojiExporter
@@ -67,7 +68,7 @@ def get_music_info(msg: MomentMsg) -> Tuple[str, str, str]:
 class HtmlExporter(threading.Thread):
 
     def __init__(self, gui: 'Gui', dir_name: str, contacts_map: dict[str, Contact], begin_date: datetime.date,
-                 end_date: datetime.date, download_pic: int, convert_video: int):
+                 end_date: datetime.date, convert_video: int):
         self.dir_name = dir_name
         if Path(f"output/{self.dir_name}").exists():
             shutil.rmtree(f"output/{self.dir_name}")
@@ -83,7 +84,6 @@ class HtmlExporter(threading.Thread):
         self.contacts_map = contacts_map
         self.begin_date = begin_date
         self.end_date = end_date
-        self.download_pic = download_pic
         self.convert_video = convert_video
         self.stop_flag = False
         super().__init__()
@@ -105,7 +105,7 @@ class HtmlExporter(threading.Thread):
         from app.DataBase import sns_db
         cover_url = sns_db.get_cover_url()
         if cover_url:
-            cover_path = self.image_exporter.save_image(cover_url, 'image')
+            cover_path = self.image_exporter.save_image((cover_url, "", ""), 'image')
             self.html_head = self.html_head.replace("{cover_path}", cover_path)
 
         self.file.write(self.html_head)
@@ -115,13 +115,20 @@ class HtmlExporter(threading.Thread):
             datetime.datetime(self.begin_date.year, self.begin_date.month, self.begin_date.day).timetuple())
         end_time = time.mktime(datetime.datetime(end_date.year, end_date.month, end_date.day).timetuple())
 
+        self.gui.image_decrypter.decrypt_images(self, self.begin_date, end_date, self.dir_name)
         self.gui.video_decrypter.decrypt_videos(self, self.begin_date, end_date, self.dir_name, self.convert_video)
+
 
         message_datas = sns_db.get_messages_in_time(begin_time, end_time)
         for index, message_data in enumerate(message_datas):
             if not self.stop_flag:
                 if message_data[0] in self.contacts_map:
-                    self.export_msg(message_data[1], self.contacts_map, self.download_pic)
+                    comments_datas = sns_db.get_comment_by_feed_id(message_data[2])
+                    comments: list[Comment] = []
+                    for c in comments_datas:
+                        contact = Comment(c[0], c[1], c[2])
+                        comments.append(contact)
+                    self.export_msg(message_data[1], comments, self.contacts_map)
                     # 更新进度条 前30%视频处理  后70%其他处理
                     progress = round(index / len(message_datas) * 70)
                     self.gui.update_export_progressbar(30 + progress)
@@ -132,7 +139,7 @@ class HtmlExporter(threading.Thread):
     def stop(self) -> None:
         self.stop_flag = True
 
-    def export_msg(self, message: str, contacts_map: dict[str, Contact], download_pic: int) -> None:
+    def export_msg(self, message: str, comments: list[Comment], contacts_map: dict[str, Contact]) -> None:
 
         LOG.info(message)
         # force_list: 强制要求转media为list
@@ -150,7 +157,7 @@ class HtmlExporter(threading.Thread):
         remark = contact.remark if contact.remark else contact.nickName
 
         # 朋友圈图片
-        images = self.image_exporter.get_images(msg, download_pic)
+        images = self.image_exporter.get_images(msg)
 
         # 朋友圈视频
         videos = self.video_exporter.get_videos(msg)
@@ -208,7 +215,8 @@ class HtmlExporter(threading.Thread):
             html += f'     <div style="width:10rem; overflow:hidden">\n'
             # 视频号图片
             thumb_path = self.image_exporter.get_finder_images(msg)
-            html += f'       <img src="{thumb_path}" onclick="openWarningOverlay(event)" style="width:10rem;height:10rem;object-fit:cover;cursor:pointer;"/>\n'
+            html += f"""       <img src=\"{thumb_path}\" onclick=\"openWarningOverlay(event)\" 
+                               style=\"width:10rem;height:10rem;object-fit:cover;cursor:pointer;\"/>\n"""
             html += '      </div>\n'
 
             # 视频号说明
@@ -221,7 +229,8 @@ class HtmlExporter(threading.Thread):
         else:
             html += f'     <div style="{get_img_div_css(len(images))}">\n'
             for thumb_path, image_path in images:
-                html += f'     <img src="{thumb_path}" full_img="{image_path}" onclick="openFullSize(event)" style="{get_img_css(len(images))}"/>\n'
+                html += f"""     <img src="{thumb_path}" full_img="{image_path}" onclick="openFullSize(event)" 
+                                 style="{get_img_css(len(images))}"/>\n"""
             html += '      </div>\n'
 
             html += '      <div>\n'

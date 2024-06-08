@@ -7,6 +7,7 @@ from pathlib import Path
 from typing import Optional
 import tkcalendar
 from decrypter.db_decrypt import DatabaseDecrypter
+from decrypter.image_decrypt import ImageDecrypter
 from decrypter.video_decrypt import VideoDecrypter
 from gui.auto_scroll_guide import AutoScrollGuide
 from gui.auto_scrolls_single_guide import AutoScrollSingleGuide
@@ -35,8 +36,6 @@ class Gui:
         self.confirm_button_text = None
         self.succeed_label_2 = None
         self.succeed_label = None
-        self.download_pic_var = Optional[tkinter.IntVar]
-        self.download_pic = None
         self.auto_scroll_button_text = None
         self.warning_label = None
         self.root = None
@@ -57,6 +56,7 @@ class Gui:
         self.decrypt_note_text = None
         self.account_info = None
         self.video_decrypter = None
+        self.image_decrypter = None
         self.export_dir_name = None
         self.exporting = False
         # 1: 自动滚动数据 2: 解密数据库 3: 导出
@@ -167,6 +167,9 @@ class Gui:
             self.next_step_button.place_forget()
             # 初始化视频导出器
             self.video_decrypter = VideoDecrypter(self, self.account_info.get("filePath"))
+            # 初始化图片导出器
+            self.image_decrypter = ImageDecrypter(self, self.account_info.get("filePath"))
+
 
         self.page_stage = self.page_stage + 1
 
@@ -216,10 +219,6 @@ class Gui:
         self.end_calendar = tkcalendar.DateEntry(master=self.root, locale="zh_CN", maxdate=datetime.now())
         self.end_calendar.place(relx=0.65, rely=0.3)
 
-        self.download_pic_var = tkinter.IntVar(value=0)
-        self.download_pic = tkinter.ttk.Checkbutton(self.root, text='下载图片', variable=self.download_pic_var)
-        self.download_pic.place(relx=0.65, rely=0.4)
-        ToolTip(self.download_pic, "将图片下载到电脑上，网页\n可离线查看，导出速度变慢")
 
         self.convert_video_var = tkinter.IntVar(value=0)
         self.convert_video = tkinter.ttk.Checkbutton(self.root, text='视频转码', variable=self.convert_video_var)
@@ -278,7 +277,7 @@ class Gui:
             # 导出线程
             self.html_exporter_thread = HtmlExporter(self, self.export_dir_name, contact_map,
                                                      self.begin_calendar.get_date(), self.end_calendar.get_date(),
-                                                     self.download_pic_var.get(), self.convert_video_var.get())
+                                                     self.convert_video_var.get())
             self.html_exporter_thread.start()
 
     def update_decrypt_progressbar(self, progress):

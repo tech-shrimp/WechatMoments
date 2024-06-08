@@ -127,6 +127,6 @@ class VideoDecrypter:
                     except Exception:
                         traceback.print_exc()
                 processed_files = processed_files + 1
-                # 前30%的进度作为 处理视频使用
-                progress = round(processed_files / total_files * 30)
+                # 15%的进度作为处理视频使用 + 15%(处理图像)
+                progress = round(processed_files / total_files * 15 + 15)
                 self.gui.update_export_progressbar(progress)
