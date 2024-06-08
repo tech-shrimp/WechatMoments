@@ -4,6 +4,14 @@
 
 # 一、项目介绍
 
+
+## 0. 求助
+四月底微信对朋友圈图片进行了加密，如果知道如何解密的大佬请指点一下。（帮忙Issue或者PR）
+通过抓包可知朋友圈图片是这样一个请求，现在问题是请求过来的数据不知道是怎么加密的
+http://shmmsns.qpic.cn/mmsns/uGxMq1C4wvppcjBbyweK796GtT1hH3LGISYajZ2v7C11XhHk5icyDUXcWNSPk2MooeIa8Es5hXP0/0?idx=1&token=WSEN6qDsKwV8A02w3onOGQYfxnkibdqSOkmHhZGNB4DFumlE9p1vp0e0xjHoXlbbXRzwnQia6X5t3Annc4oqTuDg
+<br>
+加密后字节数与原图片一致，可能是某种流式数据加密。key可能是11079841251888681493。
+
 ## 1. 项目简介
 
 * [WechatMoments](https://github.com/tech-shrimp/WechatMoments)是一款运行在Windows上的，备份导出朋友圈为html的工具
@@ -41,6 +49,9 @@
 
 
 ## 3. 常见问题与解决方法
+问：图片为什么无法导出
+- 答：2024年5月微信对图片进行了加密，2024年后的朋友圈数据清先浏览朋友圈，点开图片缓存到本地，再使用此工具才能导出图片。
+
 问：怎么导出自己朋友圈
 - 答：登陆另外一个账户搜自己，详见[电脑微信浏览朋友圈](/doc/manual_guide.md)
 - 目前没有其他方案，主要我不知道怎么在电脑端查看自己的朋友圈，如有解决方案欢迎PR
